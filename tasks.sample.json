@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Design user interface mockups",
+    "desc": "Create wireframes and mockups for the new dashboard feature",
+    "due": "2024-02-15",
+    "assignee": "user123"
+  },
+  {
+    "name": "Implement authentication system",
+    "desc": "Set up JWT-based authentication with refresh tokens",
+    "due": "2024-02-20"
+  },
+  {
+    "name": "Write API documentation",
+    "desc": "Create comprehensive documentation for all endpoints"
+  }
+]
