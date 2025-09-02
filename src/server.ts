@@ -7,10 +7,19 @@ import {
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 import { config } from "dotenv";
-import { createTrelloTasksFromFile } from "./trello";
+import { createTrelloTasksFromFile } from "./trello.js";
 
 // Load environment variables
 config();
+
+const createTrelloTasksTool: Tool = {
+  name: "create_trello_tasks_from_file",
+  description: "Create Trello cards from a JSON file containing task data",
+  inputSchema: {
+    type: "object",
+    properties: {},
+  },
+};
 
 const server = new Server(
   {
@@ -19,7 +28,9 @@ const server = new Server(
   },
   {
     capabilities: {
-      tools: {},
+      tools: {
+        create_trello_tasks_from_file: createTrelloTasksTool,
+      },
     },
   }
 );
@@ -35,19 +46,10 @@ if (missingVars.length > 0) {
   process.exit(1);
 }
 
-const createTrelloTasksTool: Tool = {
-  name: "create_trello_tasks_from_file",
-  description: "Create Trello cards from a JSON file containing task data",
-  inputSchema: {
-    type: "object",
-    properties: {},
-  },
-};
-
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (request.params.name === "create_trello_tasks_from_file") {
-    // TODO: Update this path to point to your actual tasks.json file location
-    const tasksFile = "./path/to/your/tasks.json";
+    // Use environment variable or fallback to default path
+    const tasksFile = process.env["TASKS_FILE"] || "./tasks.json";
 
     try {
       const result = await createTrelloTasksFromFile(
